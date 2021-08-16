@@ -19,18 +19,18 @@
 #define LOW    0
 
 //Pins definition 
-#define PIN_NO_0  1
-#define PIN_NO_1  2
-#define PIN_NO_2  4
-#define PIN_NO_3  8
-#define PIN_NO_4  16 
-#define PIN_NO_5  32
-#define PIN_NO_6  64 
-#define PIN_NO_7  128
+#define PIN_NO_0  (1 << 3)
+#define PIN_NO_1  (2 << 3)
+#define PIN_NO_2  (4 << 3)
+#define PIN_NO_3  (8 << 3)
+#define PIN_NO_4  (16 << 3) 
+#define PIN_NO_5  (32 << 3)
+#define PIN_NO_6  (64 << 3) 
+#define PIN_NO_7  (128 << 3)
 
 typedef struct 
 {
-    uint8_t pin_number; //pin number
+    uint16_t pin_number; //pin number
     uint8_t pin_mode; //input, output or AF
     uint8_t pin_pu; //internal pull-up (Enable, Disable)
 }pin_config_t;
@@ -42,10 +42,13 @@ typedef struct
 }pin_handle_t;
 
 
-//APIs
+/*APIs*/
+
 void gpio_init(pin_handle_t *pin_handler);
-void gpio_write_digital_pin(gpio_reg_t *p_port_x, uint8_t pin_number,uint8_t value);
-uint8_t gpio_read_digital_pin(gpio_reg_t *p_port_x, uint8_t pin_number);
+//This function accepts multiple pins at the same time when using the pin macros (i.e PIN_NO_0 | PIN_NO_1 | etc.) 
+//This is not possible when using the direct pin number (i.e 1)
+void gpio_write_digital_pin(gpio_reg_t *p_port_x, uint16_t pin_number_def,uint8_t value); 
+uint8_t gpio_read_digital_pin(gpio_reg_t *p_port_x, uint16_t pin_number_def);
 
 
 #endif /* GPIO_DRIVER_H_ */
