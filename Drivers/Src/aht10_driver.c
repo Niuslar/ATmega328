@@ -12,6 +12,7 @@
 
 static float read_sensor(uint8_t temp_or_hum);
 
+//Commands to trigger measurement 
 uint8_t trig_cmd[3] = {AHT10_TRIG_MEAS, AHT10_DAT1_CMD, AHT10_DAT2_CMD};
 
 void aht10_init()
