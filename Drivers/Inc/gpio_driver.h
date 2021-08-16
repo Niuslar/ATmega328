@@ -18,6 +18,16 @@
 #define HIGH   1
 #define LOW    0
 
+//Pins definition 
+#define PIN_NO_0  1
+#define PIN_NO_1  2
+#define PIN_NO_2  4
+#define PIN_NO_3  8
+#define PIN_NO_4  16 
+#define PIN_NO_5  32
+#define PIN_NO_6  64 
+#define PIN_NO_7  128
+
 typedef struct 
 {
     uint8_t pin_number; //pin number
