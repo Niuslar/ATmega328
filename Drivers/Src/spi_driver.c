@@ -11,7 +11,7 @@
 
 void spi_init(spi_config_t spi_config)
 {
-    //1. Set PRSPI bit in the PRR to zero
+    //1. Turn off Power Reduction for SPI by setting PRSPI bit in the PRR to zero
     PRR &= ~(1 << PRSPI);
     
     if(spi_config.spi_mode == MASTER)
