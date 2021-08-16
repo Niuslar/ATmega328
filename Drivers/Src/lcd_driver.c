@@ -18,46 +18,25 @@ pin_handle_t pin_handler;
 
 void lcd_init()
 {    
-    //Initialise all the pins starting with RS (PB1)
+    //Initialise all the pins starting with RS, RW and EN 
     pin_handler.p_port_x = LCD_CMD_PORT; 
     pin_handler.pin_config.pin_mode = OUTPUT;
-    pin_handler.pin_config.pin_number = LCD_RS;
+    pin_handler.pin_config.pin_number = LCD_RS | LCD_RW | LCD_EN;
     pin_handler.pin_config.pin_pu = DISABLE; 
     gpio_init(&pin_handler);
     
-    //Pin E 
-    pin_handler.pin_config.pin_number  = LCD_EN; 
-    gpio_init(&pin_handler);
-    
-    //Pin R/W
-    pin_handler.pin_config.pin_number = LCD_RW;
-    gpio_init(&pin_handler);
-    
+
     //Pins DB4-DB7 
     pin_handler.p_port_x = LCD_DATA_PORT;
     pin_handler.pin_config.pin_mode = OUTPUT; 
     pin_handler.pin_config.pin_pu =  DISABLE; 
-    pin_handler.pin_config.pin_number = LCD_DB4; 
-    
+    pin_handler.pin_config.pin_number = LCD_DB4 | LCD_DB5 | LCD_DB6 | LCD_DB7;   
     gpio_init(&pin_handler);
     
-    pin_handler.pin_config.pin_number = LCD_DB5; 
-    gpio_init(&pin_handler);
     
-    pin_handler.pin_config.pin_number = LCD_DB6; 
-    gpio_init(&pin_handler);
-    
-    pin_handler.pin_config.pin_number = LCD_DB7;
-    gpio_init(&pin_handler);
-    
-    //set all pins to LOW for initial config 
-    gpio_write_digital_pin(LCD_CMD_PORT, LCD_RS, LOW);
-    gpio_write_digital_pin(LCD_CMD_PORT, LCD_RW, LOW);
-    gpio_write_digital_pin(LCD_CMD_PORT, LCD_EN, LOW);
-    gpio_write_digital_pin(LCD_DATA_PORT, LCD_DB4, LOW);
-    gpio_write_digital_pin(LCD_DATA_PORT, LCD_DB5, LOW);
-    gpio_write_digital_pin(LCD_DATA_PORT, LCD_DB6, LOW);
-    gpio_write_digital_pin(LCD_DATA_PORT, LCD_DB7, LOW);
+    //Set all pins to LOW for initial config 
+    gpio_write_digital_pin(LCD_CMD_PORT, LCD_RS | LCD_RW | LCD_EN, LOW);
+    gpio_write_digital_pin(LCD_DATA_PORT, LCD_DB4 | LCD_DB5 | LCD_DB6 | LCD_DB7, LOW);
     
     //Initialisation by instruction 
     
@@ -65,8 +44,7 @@ void lcd_init()
      _delay_ms(40);
      
     //RS and RW LOW
-    gpio_write_digital_pin(LCD_CMD_PORT, LCD_RS, LOW);
-    gpio_write_digital_pin(LCD_CMD_PORT, LCD_RW, LOW);
+    gpio_write_digital_pin(LCD_CMD_PORT, LCD_RS | LCD_RW, LOW);
     
     send_4_bits(0x3);
 
@@ -143,20 +121,14 @@ void lcd_print_string(char *string)
 
 static void send_cmd(uint8_t cmd)
 {
-    //For commands, RS must be low 
-    gpio_write_digital_pin(LCD_CMD_PORT, LCD_RS, LOW);
-    
-    //Set RW to write 
-    gpio_write_digital_pin(LCD_CMD_PORT,LCD_RW, LOW);
+    //For commands, RS and RW must be low 
+    gpio_write_digital_pin(LCD_CMD_PORT, LCD_RS | LCD_RW, LOW);
     
     //send upper nibble 
     send_4_bits((cmd >> 4));
     
     //send lower nibble 
     send_4_bits((cmd & 0x0F));
-    
-    //wait until BF is clear 
-   //while(read_bf());
 }
 
 static void send_4_bits(uint8_t data)
@@ -167,8 +139,6 @@ static void send_4_bits(uint8_t data)
     gpio_write_digital_pin(LCD_DATA_PORT, LCD_DB5, ((data >> 1) & 0x1));
     gpio_write_digital_pin(LCD_DATA_PORT, LCD_DB6, ((data >> 2) & 0x1));
     gpio_write_digital_pin(LCD_DATA_PORT, LCD_DB7, ((data >> 3) & 0x1));
-    
-
 
     lcd_enable();
 } 
@@ -177,11 +147,8 @@ static void send_4_bits(uint8_t data)
 
 static uint8_t read_bf()
 {
-    //Set RS for DR 
-    gpio_write_digital_pin(LCD_CMD_PORT, LCD_RS, HIGH);
-    
-    //Set RW to read 
-    gpio_write_digital_pin(LCD_CMD_PORT, LCD_RW, HIGH);
+    //Set RS and RW to HIGH for DR 
+    gpio_write_digital_pin(LCD_CMD_PORT, LCD_RS | LCD_RW, HIGH);
     
     uint8_t bf_status = gpio_read_digital_pin(LCD_DATA_PORT, LCD_DB7);
     
