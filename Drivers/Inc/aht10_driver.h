@@ -2,7 +2,7 @@
  * aht10_driver.h
  *
  * Created: 13/08/2021 21:58:22
- *  Author: Nico
+ *  Author: Niuslar
  */ 
 
 
