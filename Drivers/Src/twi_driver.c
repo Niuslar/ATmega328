@@ -188,5 +188,5 @@ void ERROR()
 {
     while(1); //hang in infinite loop 
     
-    //TODO: Change this to actually display an error 
+    //TODO: Change this to actually manage error
 }
