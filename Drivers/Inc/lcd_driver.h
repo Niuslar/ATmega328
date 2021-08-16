@@ -24,15 +24,15 @@
 //Pin definition 
 //Pins for the RS, R/W and E line use PORT B
 #define LCD_CMD_PORT PORTB
-#define LCD_RS      1
-#define LCD_RW      2
-#define LCD_EN      3
+#define LCD_RS      PIN_NO_1
+#define LCD_RW      PIN_NO_2
+#define LCD_EN      PIN_NO_3
 //Pins DB4-DB7 use PORT C 
 #define LCD_DATA_PORT PORTC
-#define LCD_DB4     0 
-#define LCD_DB5     1
-#define LCD_DB6     2
-#define LCD_DB7     3
+#define LCD_DB4     PIN_NO_0
+#define LCD_DB5     PIN_NO_1
+#define LCD_DB6     PIN_NO_2
+#define LCD_DB7     PIN_NO_3
 
 void lcd_init();
 void lcd_clear();
