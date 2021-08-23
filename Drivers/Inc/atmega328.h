@@ -11,6 +11,7 @@
 
 #include <stdint.h>
 
+
 //System Clock Frequency
 #define F_CPU 8000000UL
 
@@ -47,6 +48,17 @@ typedef struct
     volatile uint8_t SPDR; //Data Register
 }spi_reg_t;
 
+//8-bit timer register definition 
+typedef struct
+{
+    volatile uint8_t TCCR0A; //Timer/counter control register  A
+    volatile uint8_t TCCR0B; //Timer/counter control register  B
+    volatile uint8_t TCNT0;  //Time/Counter register 
+    volatile uint8_t OCR0A;  //Output compare register A
+    volatile uint8_t OCR0B;  //Output compare register B
+    
+}tcr_reg_t;
+
 
 
 //GPIO relevant addresses
@@ -57,6 +69,9 @@ typedef struct
 
 //Power reduction register
 #define PRR   *((volatile uint8_t *)0x62)
+
+//8-bit timer/counter 0 register base address
+#define TCR0    ((tcr_reg_t*)0x44)
 
 
 //Ports registers
@@ -70,14 +85,16 @@ typedef struct
 //SPI registers base address 
 #define SPI    ((spi_reg_t*)0x4C)
 
+//Timer Interrupt Mask Register
+#define TIMSK0  *((volatile uint8_t *)0x6E)
+
+//AVR Status Register
+#define SREG    *((volatile uint8_t *)0x5F)
 
 #include "twi_driver.h"
 #include "gpio_driver.h"
 #include "spi_driver.h"
 #include "lcd_driver.h"
 #include "aht10_driver.h"
-
-
-
 
 #endif /* ATMEGA328_H_ */
