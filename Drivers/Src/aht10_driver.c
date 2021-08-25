@@ -40,7 +40,7 @@ static float read_sensor(uint8_t temp_or_hum)
         twi_master_receive(TWI, rx_buf, AHT10_ADDR, 6, NO_RS);
         
         //check if the device is busy and try to read data again
-        while((rx_buf[0] >> 7) & 1)
+        while(rx_buf[0] & (1 << 7))
         {
             twi_master_receive(TWI, rx_buf, AHT10_ADDR, 6, NO_RS);
         }
