@@ -57,8 +57,24 @@ typedef struct
     volatile uint8_t OCR0A;  //Output compare register A
     volatile uint8_t OCR0B;  //Output compare register B
     
-}tcr_reg_t;
+}tcr8_reg_t;
 
+
+//16-bit timer register definition
+typedef struct
+{
+    volatile uint8_t   TCCR1A; //Timer/counter control register  A
+    volatile uint8_t   TCCR1B; //Timer/counter control register  B
+    volatile uint8_t   TCCR1C; //Timer/counter control register  B
+    volatile uint8_t   reserved;
+    volatile uint8_t   TCNT1L;  //Timer/Counter1 - Counter Register Low Byte
+    volatile uint8_t   TCNT1H;  //Timer/Counter1 - Counter Register High Byte
+    volatile uint8_t   ICR1L;   //Timer/Counter1 - Input Capture Register Low Byte
+    volatile uint8_t   ICR1H;   //Timer/Counter1 - Input Capture Register High Byte
+    volatile uint16_t  OCR1A; //Timer/Counter1 - Output Compare Register A 
+    volatile uint16_t  OCR1B; //Timer/Counter1 - Output Compare Register B 
+    
+}tcr16_reg_t;
 
 
 //GPIO relevant addresses
@@ -71,8 +87,10 @@ typedef struct
 #define PRR   *((volatile uint8_t *)0x62)
 
 //8-bit timer/counter 0 register base address
-#define TCR0    ((tcr_reg_t*)0x44)
+#define TCR0    ((tcr8_reg_t*)0x44)
 
+//16-bit timer/counter 1 register base address
+#define TCR1    ((tcr16_reg_t*)0x80)
 
 //Ports registers
 #define PORTB  ((gpio_reg_t*)PORTB_BASE_ADDR)
@@ -85,8 +103,11 @@ typedef struct
 //SPI registers base address 
 #define SPI    ((spi_reg_t*)0x4C)
 
-//Timer Interrupt Mask Register
+//Timer Interrupt Mask Register 0
 #define TIMSK0  *((volatile uint8_t *)0x6E)
+
+//Timer Interrupt Mask Register 1
+#define TIMSK1  *((volatile uint8_t *)0x6F)
 
 //AVR Status Register
 #define SREG    *((volatile uint8_t *)0x5F)
