@@ -62,7 +62,7 @@ void lcd_init()
     send_cmd(LCD_SET_FUNC);
 
     //Display ON with blinking cursor
-    send_cmd(LCD_BLINK_CUR);
+    send_cmd(LCD_NO_CURS);
     
     //Clear Display 
     lcd_clear();
