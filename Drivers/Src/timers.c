@@ -3,7 +3,7 @@
  *
  * Created: 25/08/2021 15:27:04
  *  Author: Nico
- ***********NOTE: This file's functions and defines are based on the Arduino millis() functions*****
+ ***********NOTE: This file's functions and defines are based on the Arduino millis() and micros() functions*****
  */ 
 
 #include "timers.h"
