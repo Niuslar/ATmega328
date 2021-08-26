@@ -39,13 +39,24 @@
 #define TWI_SC_DR_ACK    0x50 //Data Byte has been received and ACK returned
 #define TWI_SC_DR_NACK   0x58 //Data Byte has been received and NACK returned
 
+//Busy state macros 
+#define TWI_READY  0
+#define BUSY_IN_RX 1
+#define BUSY_IN_TX 2
+
 
 //Power Reduction Register PRTWI bit 
 #define PRTWI   7
 
+
 void twi_init(uint32_t twi_speed);
 void twi_master_send(twi_reg_t *twi_reg, uint8_t *tx_buf, uint8_t len, uint8_t slave_addr, uint8_t rep_start);
 void twi_master_receive(twi_reg_t *twi_reg, uint8_t *rx_buf, uint8_t slave_addr,uint8_t len, uint8_t rep_start);
+//void twi_master_send_it(twi_handler_t *p_twi_handler, uint8_t *tx_buf, uint8_t len, uint8_t slave_addr, uint8_t rep_start);
+//void twi_master_receive_it(twi_handler_t *p_twi_handler, uint8_t *rx_buf, uint8_t slave_addr,uint8_t len, uint8_t rep_start);
+
+//void twi_interrupt_handler(twi_handler_t *p_twi_handler);
+
 
 
 
