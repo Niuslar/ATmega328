@@ -6,6 +6,7 @@
  */ 
 
 #include "twi_driver.h"
+#include "timers.h"
 
 static uint8_t twi_bit_rate(uint32_t twi_speed);
 static void ERROR();
@@ -184,9 +185,9 @@ static uint8_t twi_bit_rate(uint32_t twi_speed)
     
 }
 
+
 void ERROR()
 {
-    while(1); //hang in infinite loop 
-    
-    //TODO: Change this to actually manage error
+    //Hang the program in an infinite loop
+    while(1);
 }
