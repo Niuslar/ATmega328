@@ -14,12 +14,18 @@ static float read_sensor(uint8_t temp_or_hum);
 
 //Commands to trigger measurement 
 uint8_t trig_cmd[3] = {AHT10_TRIG_MEAS, AHT10_DAT1_CMD, AHT10_DAT2_CMD};
+//Calibration commands
+uint8_t calib_cmd[3] = {0xE1, 0x08, 0x00};
+
+
 
 void aht10_init()
 {
+
     twi_init(TWI_SPEED_STD); 
-    uint8_t init = AHT10_INIT_CMD;
-    twi_master_send(TWI, &init, 1, AHT10_ADDR, NO_RS);
+
+    //Calibrate
+    twi_master_send(TWI, calib_cmd, 3, AHT10_ADDR, NO_RS);
 }
 
 float read_humidity()
@@ -35,7 +41,9 @@ float read_temperature()
 static float read_sensor(uint8_t temp_or_hum)
 {
         uint8_t rx_buf[6];
+                
         twi_master_send(TWI, trig_cmd, 3, AHT10_ADDR, NO_RS);
+        
         _delay_ms(75);
         twi_master_receive(TWI, rx_buf, AHT10_ADDR, 6, NO_RS);
         
@@ -43,7 +51,7 @@ static float read_sensor(uint8_t temp_or_hum)
         while(rx_buf[0] & (1 << 7))
         {
             twi_master_receive(TWI, rx_buf, AHT10_ADDR, 6, NO_RS);
-        }
+        }            
         
         uint32_t humidity_reading = ((uint32_t)rx_buf[1] << 12) | ((uint16_t)rx_buf[2] << 4) | (rx_buf[3] >> 4) ;
         
