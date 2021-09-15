@@ -17,8 +17,6 @@ uint8_t trig_cmd[3] = {AHT10_TRIG_MEAS, AHT10_DAT1_CMD, AHT10_DAT2_CMD};
 //Calibration commands
 uint8_t calib_cmd[3] = {0xE1, 0x08, 0x00};
 
-
-
 void aht10_init()
 {
 
@@ -44,7 +42,9 @@ static float read_sensor(uint8_t temp_or_hum)
                 
         twi_master_send(TWI, trig_cmd, 3, AHT10_ADDR, NO_RS);
         
+        //The sensor needs 75 ms before reading the data
         _delay_ms(75);
+        
         twi_master_receive(TWI, rx_buf, AHT10_ADDR, 6, NO_RS);
         
         //check if the device is busy and try to read data again

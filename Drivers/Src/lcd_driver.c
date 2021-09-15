@@ -7,7 +7,9 @@
 
 
 #include "lcd_driver.h"
+#include "timers.h"
 #include <util/delay.h>
+
 
 static void send_4_bits(uint8_t data);
 //static uint8_t read_bf();
@@ -91,8 +93,6 @@ void lcd_print_char(uint8_t data)
     //send lower nibble 
     send_4_bits((data & 0x0F));
     
-    //wait until BF is clear 
-   //while(read_bf());
     
 }
 void lcd_set_cursor_xy(uint8_t row, uint8_t column)
